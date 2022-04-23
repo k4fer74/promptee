@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let verses = GetVerses(1, 1)
+    console.log(verses)
+    function GetBooks() {
+        let req = new XMLHttpRequest()
+        req.open("GET", "/api/books", false)
+        req.send()
+        return JSON.parse(req.responseText)
+    }
+    function GetChapters(bookNumber) {
+        let req = new XMLHttpRequest()
+        req.open("GET", "/api/books/" + bookNumber + "/chapters", false)
+        req.send()
+        return JSON.parse(req.responseText)
+    }
+    function GetVerses(bookNumber, chapterNumber) {
+        let req = new XMLHttpRequest()
+        req.open("GET", "/api/books/" + bookNumber + "/chapters/" + chapterNumber + "/verses", false)
+        req.send()
+        return JSON.parse(req.responseText)
+    }
+</script>
+<!--    <div>Prompter</div>-->
+<!--    <script>-->
+<!--        let ws = new WebSocket("{{.ws_path}}");-->
+<!--        ws.onopen = function(evt) {-->
+<!--            console.log("OPEN");-->
+<!--        }-->
+<!--        ws.onclose = function(evt) {-->
+<!--            console.log("CLOSE");-->
+<!--            ws = null;-->
+<!--        }-->
+<!--        ws.onmessage = function(evt) {-->
+<!--            console.log("RESPONSE: " + evt.data);-->
+<!--        }-->
+<!--        ws.onerror = function(evt) {-->
+<!--            console.log("ERROR: " + evt.data);-->
+<!--        }-->
+<!--    </script>-->
+</body>
+</html>

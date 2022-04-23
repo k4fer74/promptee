@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministry</title>
+</head>
+<div>
+    <select>
+        <option value="">Book</option>
+    </select>
+</div>
+<body>
+    <script>
+        let books = GetBooks()
+        console.log(books)
+        function GetBooks() {
+            let req = new XMLHttpRequest()
+            req.open("GET", "/api/books", false)
+            req.send()
+            return JSON.parse(req.responseText)
+        }
+    </script>
+</body>
+</html>

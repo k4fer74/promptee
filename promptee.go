@@ -1,8 +1,8 @@
 package promptee
 
 import (
-	"github.com/k4fer74/promptee/api/rest"
-	"github.com/k4fer74/promptee/bible"
+	"github.com/k4fer74/promptee/pkg/api/rest"
+	"github.com/k4fer74/promptee/pkg/bible"
 )
 
 type App struct {

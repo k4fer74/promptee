@@ -2,7 +2,7 @@ package osis
 
 import (
 	"encoding/xml"
-	"github.com/k4fer74/promptee/bible"
+	"github.com/k4fer74/promptee/pkg/bible"
 	"io/ioutil"
 	"os"
 )
