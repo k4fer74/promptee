@@ -1,0 +1,35 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.Bible {
+   background: azure;
+}
+
+.Bible > header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #303f9f;
+    padding: 10px;
+}
+
+.Bible section ul {
+    padding: 20px;
+}
+
+.Bible section ul li {
+    padding: 10px 0;
+    list-style-type: none;
+    opacity: .4;
+    display: block;
+}
+
+.Bible section ul li.highlighted {
+    opacity: 1;
+}
+
+.Bible section ul li.disabled {
+    display: none;
+}
