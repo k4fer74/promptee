@@ -10,8 +10,16 @@ module.exports = {
       },
       bible: {
         'entry': 'bible',
-        'title': "Bible",
+        'title': 'Bible',
       },
+      prompter: {
+        'entry': 'prompter',
+        'title': 'Prompter',
+      },
+      lyrics: {
+        'entry': 'lyrics',
+        'title': 'Lyrics',
+      }
     },
   },
   use: [

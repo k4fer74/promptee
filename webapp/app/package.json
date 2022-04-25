@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --mode development --open",
+    "start": "webpack-dev-server --mode development --allowed-hosts all --host 0.0.0.0",
     "build": "webpack --mode production"
   },
   "keywords": [],
@@ -15,7 +15,8 @@
     "prop-types": "^15.8.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-hot-loader": "^4.13.0"
+    "react-hot-loader": "^4.13.0",
+    "react-use-websocket": "^3.0.0"
   },
   "devDependencies": {
     "@neutrinojs/react": "^9.5.0",

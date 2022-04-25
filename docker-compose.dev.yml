@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  server:
+    image: golang:1.18-alpine
+    entrypoint: go run cmd/main.go
+    working_dir: /promptee
+    volumes:
+      - .:/promptee
+      - /promptee/webapp
+    ports:
+      - "3160:3160"
+
+  webapp:
+    image: node:16-alpine
+    depends_on:
+      - server
+    entrypoint: npm start
+    working_dir: /webapp
+    volumes:
+      - ./webapp/app:/webapp
+    ports:
+      - "5000:5000"

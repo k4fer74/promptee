@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+.Bible {
+    background: #f6ffff;
+    font-size: 20px;
+    position: relative;
+    padding-top: 80px;
+}
+
+.Bible > header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #303f9f;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)
+}
+
+.Bible > header select {
+    padding: 5px;
+}
+
+.Bible section ul {
+    padding: 20px;
+}
+
+.Bible section ul li {
+    padding: 10px 0;
+    list-style-type: none;
+    opacity: .3;
+    display: block;
+    color: #313131;
+}
+
+.Bible section ul li:last-child {
+    text-align: center;
+}
+
+.Bible section ul li span {
+    opacity: .3;
+    font-size: 75%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.Bible section ul li.highlighted {
+    opacity: 1;
+    display: block !important;
+}
+
+.Bible section ul li:not(li.highlighted ~ li) {
+    display: none;
+}
+
+.Bible footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 20px;
+}
+
+.Bible footer ul {
+    background: #303f9f;
+    border-radius: 50px;
+    text-align: center;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Bible footer ul li {
+    display: inline-block;
+    padding: 10px 20px;
+}
+
+.Bible footer ul li:nth-child(1) {
+    border-right: 2px solid;
+    border-color: rgba(0, 0, 0, .25);
+}

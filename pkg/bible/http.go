@@ -23,15 +23,14 @@ func NewRestAPI(conf RestConf) *RestAPI {
 		Store:  conf.Store,
 		Router: conf.Router,
 	}
-	r.RegisterHandlers()
 	return r
 }
 
 func (h *RestAPI) RegisterHandlers() {
 	h.Router.HandleFunc("/books", h.GetBooksHandler).Methods("GET")
-	h.Router.HandleFunc("/books/{bookNumber}/chapters", h.GetChaptersHandler).Methods("GET")
-	h.Router.HandleFunc("/books/{bookNumber}/chapters/{chapterNumber}/verses", h.GetVersesHandler).Methods("GET")
-	h.Router.HandleFunc("/books/{bookNumber}/chapters/{chapterNumber}/verses/{verseNumber}", h.GetVerseHandler).Methods("GET")
+	h.Router.HandleFunc("/books/{bookNumber:[0-9]+}/chapters", h.GetChaptersHandler).Methods("GET")
+	h.Router.HandleFunc("/books/{bookNumber:[0-9]+}/chapters/{chapterNumber:[0-9]+}/verses", h.GetVersesHandler).Methods("GET")
+	h.Router.HandleFunc("/books/{bookNumber:[0-9]+}/chapters/{chapterNumber:[0-9]+}/verses/{verseNumber:[0-9]+}", h.GetVerseHandler).Methods("GET")
 }
 
 func (h *RestAPI) GetBooksHandler(w http.ResponseWriter, r *http.Request) {

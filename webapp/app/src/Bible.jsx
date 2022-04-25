@@ -1,8 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { render } from 'react-dom';
 import './Bible.css';
 
+const baseAPIPath = window.location.protocol + "//" + window.location.hostname + ":3160/api"
+
 function Bible() {
+    const [socketUrl, setSocketUrl] = useState('ws://'+ window.location.hostname + ':3160/api/prompter/broadcast/bible_text')
+    const {sendMessage, lastMessage, readyState} = useWebSocket(socketUrl);
+    const wsConnectionStatus = {
+        [ReadyState.CONNECTING]: 'Connecting',
+        [ReadyState.OPEN]: 'Open',
+        [ReadyState.CLOSING]: 'Closing',
+        [ReadyState.CLOSED]: 'Closed',
+        [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
+    }[readyState];
+
     const [books, setBooks] = useState([]);
     const [bookNumber, setBookNumber] = useState(0);
 
@@ -14,7 +27,7 @@ function Bible() {
 
     useEffect(() => {
         let req = new XMLHttpRequest()
-        req.open("GET", "http://127.0.0.1:3160/api/books", false)
+        req.open("GET", baseAPIPath + "/books", false)
         req.send()
         setBooks(JSON.parse(req.responseText))
     }, []);
@@ -22,7 +35,7 @@ function Bible() {
     useEffect(() => {
         if (bookNumber !== 0) {
             let req = new XMLHttpRequest()
-            req.open("GET", "http://127.0.0.1:3160/api/books/" + bookNumber + "/chapters", false)
+            req.open("GET", baseAPIPath + "/books/" + bookNumber + "/chapters", false)
             req.send()
             setChapters(JSON.parse(req.responseText))
             setChapterNumber(0)
@@ -34,12 +47,25 @@ function Bible() {
     useEffect(() => {
         if (chapterNumber !== 0) {
             let req = new XMLHttpRequest()
-            req.open("GET", "http://127.0.0.1:3160/api/books/" + bookNumber + "/chapters/" + chapterNumber + "/verses", false)
+            req.open("GET", baseAPIPath + "/books/" + bookNumber + "/chapters/" + chapterNumber + "/verses", false)
             req.send()
             setVerseNumber(1)
             setVerses(JSON.parse(req.responseText))
         }
     }, [chapterNumber])
+
+    useEffect(() => {
+        if (verseNumber !== 0) {
+            const broadcastMessage = {
+                book_number: bookNumber,
+                book_name: books[bookNumber-1].name,
+                chapter_number: chapterNumber,
+                verse_number: verseNumber,
+                verse_text: verses[verseNumber-1].text
+            }
+            sendMessage(JSON.stringify(broadcastMessage))
+        }
+    }, [verseNumber])
 
     function getChapters(e) {
         setBookNumber(parseInt(e.target.value))
@@ -49,7 +75,7 @@ function Bible() {
         setChapterNumber(parseInt(e.target.value))
     }
 
-    function getSingleVerse(e) {
+    function jumpToSingleVerse(e) {
         setVerseNumber(parseInt(e.target.value))
     }
 
@@ -69,7 +95,7 @@ function Bible() {
                     </select>
                 </div>
                 <div>
-                    <select value={verseNumber} onChange={getSingleVerse}>
+                    <select value={verseNumber} onChange={jumpToSingleVerse}>
                         <option>Jump to</option>
                         {verses.map(v => <option key={v.number} value={v.number}>{v.number}</option>)}
                     </select>
@@ -78,15 +104,25 @@ function Bible() {
             <section>
                 <ul>
                     {verses.map(v =>
-                        <li key={v.number} className={v.number === verseNumber ? "highlighted": ""}>
+                        <li onClick={() => setVerseNumber(v.number)} key={v.number} className={v.number === verseNumber ? "highlighted": ""}>
                             <span>{v.number}</span> {v.text}
                         </li>
                     )}
+                    <li>End of text</li>
                 </ul>
             </section>
+            <footer style={{display: chapterNumber === 0 ? "none": "block"}}>
+                <ul>
+                    <li onClick={() => setVerseNumber(verseNumber-1)} style={{display: verseNumber === 1 ? "none": "inline-block"}}>
+                        Prev verse ({verseNumber-1})
+                    </li>
+                    <li onClick={() => setVerseNumber(verseNumber+1)} style={{display: verseNumber !== verses.length ? "inline-block": "none"}}>
+                        Next verse ({verseNumber+1})
+                    </li>
+                </ul>
+            </footer>
         </div>
     )
 }
-
 
 render(<Bible />, document.getElementById('root'));
