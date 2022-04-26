@@ -15,7 +15,7 @@ services:
     image: node:16-alpine
     depends_on:
       - server
-    entrypoint: npm start
+    command: sh -c "npm install && npm start"
     working_dir: /webapp
     volumes:
       - ./webapp/app:/webapp
